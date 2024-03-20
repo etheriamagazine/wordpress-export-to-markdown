@@ -17,22 +17,23 @@ async function parseFilePromise(config) {
 		tagNameProcessors: [xml2js.processors.stripPrefix]
 	});
 	const channelData = allData.rss.channel[0].item;
+	const categoryData = allData.rss.channel[0].category
+
 
 	const postTypes = getPostTypes(channelData, config);
 	const posts = collectPosts(channelData, postTypes, config);
+	const categories = collectCategories(categoryData, config);
 
 	const images = [];
-	if (config.saveAttachedImages) {
-		images.push(...collectAttachedImages(channelData));
-	}
-	if (config.saveScrapedImages) {
-		images.push(...collectScrapedImages(channelData, postTypes));
-	}
+
+	// collect image data always for metadata processing
+	images.push(...collectAttachedImages(channelData));
+	images.push(...collectScrapedImages(channelData, postTypes));
 
 	mergeImagesIntoPosts(images, posts);
 	populateFrontmatter(posts);
 
-	return posts;
+	return [posts, categories];
 }
 
 function getPostTypes(channelData, config) {
@@ -150,6 +151,9 @@ function collectScrapedImages(channelData, postTypes) {
 }
 
 function mergeImagesIntoPosts(images, posts) {
+	console.log("images:"  + images.length)
+	console.log("posts:"  + posts.length)
+
 	images.forEach(image => {
 		posts.forEach(post => {
 			let shouldAttach = false;
@@ -162,7 +166,7 @@ function mergeImagesIntoPosts(images, posts) {
 			// this image was set as the featured image for this post
 			if (image.id === post.meta.coverImageId) {
 				shouldAttach = true;
-				post.meta.coverImage = shared.getFilenameFromUrl(image.url);
+				post.meta.coverImage = image.url;// shared.getFilenameFromUrl(image.url);
 			}
 
 			if (shouldAttach && !post.meta.imageUrls.includes(image.url)) {
@@ -189,4 +193,20 @@ function populateFrontmatter(posts) {
 	});
 }
 
+function collectCategories(categoriesData, config) {
+	return categoriesData.map(item => ({
+		frontmatter: {
+			title: convertToTitleCase(item.cat_name[0]),
+			slug: item.category_nicename[0],
+			description: item.category_description && item.category_description[0] || ''
+		},
+		content: ""
+	}));
+}
+function convertToTitleCase(str) {
+	if (!str) {
+		return ""
+	}
+	return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
+  }
 exports.parseFilePromise = parseFilePromise;

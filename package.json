@@ -12,6 +12,7 @@
 		"wordpress"
 	],
 	"scripts": {
+		"export": "rm -rf output && node index.js --wizard=false --year-folders=true --month-folders=true --post-folders=false --prefix-date=false --save-images=false",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},
 	"author": "Will Boyd <will@codersblock.com> (https://codersblock.com)",

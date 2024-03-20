@@ -56,19 +56,19 @@ const options = [
 		default: false
 	},
 	{
-		name: 'save-attached-images',
+		name: 'save-images',
 		aliases: ['saveimages'],
 		type: 'boolean',
 		description: 'Save images attached to posts',
 		default: true
 	},
-	{
-		name: 'save-scraped-images',
-		aliases: ['addcontentimages'],
-		type: 'boolean',
-		description: 'Save images scraped from post body content',
-		default: true
-	},
+	// {
+	// 	name: 'save-scraped-images',
+	// 	aliases: ['addcontentimages'],
+	// 	type: 'boolean',
+	// 	description: 'Save images scraped from post body content',
+	// 	default: true
+	// },
 	{
 		name: 'include-other-types',
 		type: 'boolean',

@@ -5,9 +5,10 @@
 exports.frontmatter_fields = [
 	'title',
 	'date',
+	'coverImage',
 	'categories',
 	'tags',
-	'coverImage'
+	'author'
 ];
 
 // Time in ms to wait between requesting image files. Increase this if you see timeouts or
@@ -30,3 +31,11 @@ exports.custom_date_formatting = '';
 // Categories to be excluded from post frontmatter. This does not filter out posts themselves,
 // just the categories listed in their frontmatter.
 exports.filter_categories = ['uncategorized'];
+
+exports.translate_categories = function(category) {
+	return categoryMap[category] || category;
+}
+
+const categoryMap = {
+	"some-slug-in-etheria": "Some category slug"
+}

@@ -7,9 +7,12 @@ const requestPromiseNative = require('request-promise-native');
 const shared = require('./shared');
 const settings = require('./settings');
 
-async function writeFilesPromise(posts, config) {
+async function writeFilesPromise(posts, categories, config) {
+	await writeCategoryFilesPromise(categories, config);
 	await writeMarkdownFilesPromise(posts, config);
-	await writeImageFilesPromise(posts, config);
+	if(config.saveImages) {
+		await writeImageFilesPromise(posts, config);
+	}
 }
 
 async function processPayloadsPromise(payloads, loadFunc) {
@@ -80,14 +83,27 @@ async function loadMarkdownFilePromise(post) {
 		if (Array.isArray(value)) {
 			if (value.length > 0) {
 				// array of one or more strings
-				outputValue = value.reduce((list, item) => `${list}\n  - "${item}"`, '');
+				outputValue = value.reduce((list, item) => `${list}\n  - ${item}`, '');
 			}
 		} else {
-			// single string value
-			const escapedValue = (value || '').replace(/"/g, '\\"');
-			if (escapedValue.length > 0) {
-				outputValue = `"${escapedValue}"`;
+			// console.log(key);
+			let shouldEscape = ['title'].includes(key);
+
+			if(shouldEscape) {
+				// single string value
+				const escapedValue = (value || '').replace(/"/g, '\\"');
+				if (escapedValue.length > 0) {
+					outputValue = `"${escapedValue}"`;
+				}				
+			} else
+			{
+				// single string value
+				value = (value || '');
+				if (value.length > 0) {
+					outputValue = `${value}`;
+				}
 			}
+
 		}
 
 		if (outputValue !== undefined) {
@@ -96,7 +112,15 @@ async function loadMarkdownFilePromise(post) {
 	});
 
 	output += `---\n\n${post.content}\n`;
-	return output;
+
+
+	return await replace_image_prefix(output);
+}
+
+async function replace_image_prefix(output) {
+	return output
+		.replaceAll("https://etheriamagazine.com/wp-content/uploads/", "etheria_images/")
+		.replaceAll("http://etheriamagazine.com/wp-content/uploads/", "etheria_images/")
 }
 
 async function writeImageFilesPromise(posts, config) {
@@ -167,7 +191,7 @@ function getPostPath(post, config) {
 	}
 
 	// start with base output dir
-	const pathSegments = [config.output];
+	const pathSegments = [config.output, "posts"];
 
 	// create segment for post type if we're dealing with more than just "post"
 	if (config.includeOtherTypes) {
@@ -201,5 +225,90 @@ function getPostPath(post, config) {
 function checkFile(path) {
 	return fs.existsSync(path);
 }
+
+async function writeCategoryFilesPromise(categories, config) {
+	// console.log(categories, config);
+	// package up posts into payloads
+	let skipCount = 0;
+	let delay = 0;
+	const payloads = categories.flatMap(category => {
+		const destinationPath = getCategoryPath(category, config);
+		if (checkFile(destinationPath)) {
+			// already exists, don't need to save again
+			skipCount++;
+			return [];
+		} else {
+			const payload = {
+				item: category,
+				name: category.frontmatter.slug,
+				destinationPath,
+				delay
+			};
+			delay += settings.markdown_file_write_delay;
+			return [payload];
+		}
+	});
+
+	const remainingCount = payloads.length;
+	if (remainingCount + skipCount === 0) {
+		console.log('\nNo categories to download and save...');
+	} else {
+		console.log(`\nSaving ${remainingCount} categories (${skipCount} already exist)...`);
+		await processPayloadsPromise(payloads, loadCategoryFilePromise);
+	}
+}
+
+async function loadCategoryFilePromise(category) {
+	let output = '---\n';
+
+	Object.entries(category.frontmatter).forEach(([key, value]) => {
+		let outputValue;
+		if (Array.isArray(value)) {
+			if (value.length > 0) {
+				// array of one or more strings
+				outputValue = value.reduce((list, item) => `${list}\n  - ${item}`, '');
+			}
+		} else {
+			// console.log(key);
+			let shouldEscape = ['title', 'description'].includes(key);
+
+			if(shouldEscape) {
+				// single string value
+				const escapedValue = (value || '').replace(/"/g, '\\"');
+				if (escapedValue.length > 0) {
+					outputValue = `"${escapedValue}"`;
+				}				
+			} else
+			{
+				// single string value
+				value = (value || '');
+				if (value.length > 0) {
+					outputValue = `${value}`;
+				}
+			}
+
+		}
+
+		if (outputValue !== undefined) {
+			output += `${key}: ${outputValue}\n`;
+		}
+	});
+
+	output += `---\n\n${category.content}\n`;
+
+
+	return output;
+}
+
+function getCategoryPath(category, config) {
+	const pathSegments = [config.output];
+
+	pathSegments.push('categories');
+	pathSegments.push(category.frontmatter.slug);
+	pathSegments.push('_index.md')
+
+	return path.join(...pathSegments)
+}
+
 
 exports.writeFilesPromise = writeFilesPromise;
