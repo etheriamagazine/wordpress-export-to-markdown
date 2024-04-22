@@ -119,8 +119,8 @@ async function loadMarkdownFilePromise(post) {
 
 async function replace_image_prefix(output) {
 	return output
-		.replaceAll("https://etheriamagazine.com/wp-content/uploads/", "etheria_images/")
-		.replaceAll("http://etheriamagazine.com/wp-content/uploads/", "etheria_images/")
+		.replaceAll("https://etheriamagazine.com/wp-content/uploads/", "etheria-images/")
+		.replaceAll("http://etheriamagazine.com/wp-content/uploads/", "etheria-images/")
 }
 
 async function writeImageFilesPromise(posts, config) {
