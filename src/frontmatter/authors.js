@@ -1,3 +1,5 @@
+const settings = require('../settings.js');
+
 // get author
 module.exports = (post) => {
 	// console.log('\nBEGIN POST DATA DUMP ===========================================================\n');
@@ -7,13 +9,15 @@ module.exports = (post) => {
 		return [];
 	}
 
-	if(Array.isArray(post.data.creator)) {
-		return post.data.creator;
-	}
+	// if(Array.isArray(post.data.creator)) {
+	// 	return post.data.creator;
+	// }
 
-	let authors = Array.isArray(post.data.creator) ?
-		post.data.creator :
-		post.data.creator[0];
+	// let authors = Array.isArray(post.data.creator) ?
+	// 	post.data.creator :
+	// 	post.data.creator[0];
 
-	return authors.map(x => x);
+	let authors = post.data.creator;
+
+	return authors.map(x => settings.translateAuthor(x));
 };

@@ -12,7 +12,7 @@ module.exports = (post) => {
 
   let result = categories
   	.filter(category => !settings.filter_categories.includes(category))
-	.map(category => settings.translate_categories(category));
+	.map(category => settings.translateCategory(category));
 
 	if(result.length == 0) console.log("oops")
    return result;

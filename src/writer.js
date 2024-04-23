@@ -7,7 +7,8 @@ const requestPromiseNative = require('request-promise-native');
 const shared = require('./shared');
 const settings = require('./settings');
 
-async function writeFilesPromise(posts, categories, config) {
+async function writeFilesPromise(posts, categories, authors, config) {
+	await writeAuthorFilesPromise(authors, config);
 	await writeCategoryFilesPromise(categories, config);
 	await writeMarkdownFilesPromise(posts, config);
 	if(config.saveImages) {
@@ -310,5 +311,108 @@ function getCategoryPath(category, config) {
 	return path.join(...pathSegments)
 }
 
+//
+
+async function writeAuthorFilesPromise(authors, config) {
+	// console.log(categories, config);
+	// package up posts into payloads
+	let skipCount = 0;
+	let delay = 0;
+	const payloads = authors.flatMap(author => {
+		const destinationPath = getAuthorPath(author, config);
+		if (checkFile(destinationPath)) {
+			// already exists, don't need to save again
+			skipCount++;
+			return [];
+		} else {
+			const payload = {
+				item: author,
+				name: author.frontmatter.slug || urlize(author.frontmatter.title),
+				destinationPath,
+				delay
+			};
+			delay += settings.markdown_file_write_delay;
+			return [payload];
+		}
+	});
+
+	const remainingCount = payloads.length;
+	if (remainingCount + skipCount === 0) {
+		console.log('\nNo authors to download and save...');
+	} else {
+		console.log(`\nSaving ${remainingCount} authors (${skipCount} already exist)...`);
+		await processPayloadsPromise(payloads, loadAuthorFilePromise);
+	}
+}
+
+async function loadAuthorFilePromise(author) {
+	let output = '---\n';
+
+	Object.entries(author.frontmatter).forEach(([key, value]) => {
+		let outputValue;
+		if (Array.isArray(value)) {
+			if (value.length > 0) {
+				// array of one or more strings
+				outputValue = value.reduce((list, item) => `${list}\n  - ${item}`, '');
+			}
+		} else {
+			// console.log(key);
+			let shouldEscape = ['title', 'displayName', 'bio', 'email', 'slug'].includes(key);
+
+			if(shouldEscape) {
+				// single string value
+				const escapedValue = (value || '').replace(/"/g, '\\"');
+				if (escapedValue.length > 0) {
+					outputValue = `"${escapedValue}"`;
+				}				
+			} else
+			{
+				// single string value
+				value = (value || '');
+				if (value.length > 0) {
+					outputValue = `${value}`;
+				}
+			}
+
+		}
+
+		if (outputValue !== undefined) {
+			output += `${key}: ${outputValue}\n`;
+		}
+	});
+
+	output += `---\n\n${author.content}\n`;
+
+
+	return output;
+}
+
+function getAuthorPath(author, config) {
+	const pathSegments = [config.output];
+
+	pathSegments.push('authors');
+	let slug = urlize(author.frontmatter.title) 
+	pathSegments.push(slug);
+	pathSegments.push('_index.md')
+
+	return path.join(...pathSegments)
+}
+
+
+function urlize(str) {
+	// Convert the string to lowercase
+	str = str.toLowerCase();
+  
+	// normalize and remove accents
+	str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+	// Remove special characters, replace spaces with dashes
+	str = str.replace(/[^\w\s-.]/g, '').replace(/\s+/g, '-');
+  
+	// Remove leading and trailing dashes
+	str = str.replace(/^-+|-+$/g, '');
+  
+	return str;
+  }
 
 exports.writeFilesPromise = writeFilesPromise;

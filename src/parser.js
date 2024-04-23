@@ -18,11 +18,13 @@ async function parseFilePromise(config) {
 	});
 	const channelData = allData.rss.channel[0].item;
 	const categoryData = allData.rss.channel[0].category
+	const authorData = allData.rss.channel[0].author
 
 
 	const postTypes = getPostTypes(channelData, config);
 	const posts = collectPosts(channelData, postTypes, config);
 	const categories = collectCategories(categoryData, config);
+	const authors = collectAuthors(authorData, config);
 
 	const images = [];
 
@@ -33,7 +35,7 @@ async function parseFilePromise(config) {
 	mergeImagesIntoPosts(images, posts);
 	populateFrontmatter(posts);
 
-	return [posts, categories];
+	return [posts, categories, authors];
 }
 
 function getPostTypes(channelData, config) {
@@ -203,10 +205,26 @@ function collectCategories(categoriesData, config) {
 		content: ""
 	}));
 }
+
 function convertToTitleCase(str) {
 	if (!str) {
 		return ""
 	}
 	return str.charAt(0).toUpperCase() + str.substr(1).toLowerCase();
-  }
+}
+
+
+function collectAuthors(authorData, config) {
+	return authorData.map(item => ({
+		frontmatter: {
+			title: settings.translateAuthor(item.author_login[0]),
+			slug: settings.getAuthor(item.author_login[0]).slug || '',
+			displayName: settings.getAuthor(item.author_login[0]).displayName,
+			email: item.author_email[0],
+			bio: settings.getAuthor(item.author_login[0]).bio
+		},
+		content: ""
+	}));
+}
+
 exports.parseFilePromise = parseFilePromise;

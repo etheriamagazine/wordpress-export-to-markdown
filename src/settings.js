@@ -2,14 +2,7 @@
 // Order is preserved. If a field has an empty value, it will not be included. You can rename a
 // field by providing an alias after a ':'. For example, 'date:created' will include 'date' in
 // frontmatter, but renamed to 'created'.
-exports.frontmatter_fields = [
-	'title',
-	'date',
-	'coverImage',
-	'categories',
-	'tags',
-	'author'
-];
+exports.frontmatter_fields = ["title", "date", "coverImage", "categories", "tags", "authors"];
 
 // Time in ms to wait between requesting image files. Increase this if you see timeouts or
 // server errors.
@@ -26,16 +19,29 @@ exports.include_time_with_date = false;
 // Override post date formatting with a custom formatting string (for example: 'yyyy LLL dd').
 // Tokens are documented here: https://moment.github.io/luxon/#/parsing?id=table-of-tokens. If
 // set, this takes precedence over include_time_with_date.
-exports.custom_date_formatting = '';
+exports.custom_date_formatting = "";
 
 // Categories to be excluded from post frontmatter. This does not filter out posts themselves,
 // just the categories listed in their frontmatter.
-exports.filter_categories = ['uncategorized'];
-
-exports.translate_categories = function(category) {
-	return categoryMap[category] || category;
-}
+exports.filter_categories = ["uncategorized"];
 
 const categoryMap = {
-	"some-slug-in-etheria": "Some category slug"
+  "some-slug-in-etheria": "Some category slug",
+};
+
+exports.translateCategory = function (category) {
+  return categoryMap[category] || category;
+};
+
+const authorMap = require("./authors_db.json").reduce(
+  (acc, item) => ({ ...acc, [item.oldRefKey]: item }),
+  {}
+);
+
+exports.translateAuthor = function (oldRefKey) {
+  return authorMap[oldRefKey]?.term || oldRefKey;
+};
+
+exports.getAuthor = function (oldRefKey) {
+	return authorMap[oldRefKey];
 }
