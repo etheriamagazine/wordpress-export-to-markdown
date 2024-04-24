@@ -404,10 +404,10 @@ function urlize(str) {
 	str = str.toLowerCase();
   
 	// normalize and remove accents
-	str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+	//str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 
 	// Remove special characters, replace spaces with dashes
-	str = str.replace(/[^\w\s-.]/g, '').replace(/\s+/g, '-');
+	str = str.replace(/[^À-ž\w\s-.]/g, '').replace(/\s+/g, '-');
   
 	// Remove leading and trailing dashes
 	str = str.replace(/^-+|-+$/g, '');

@@ -215,16 +215,44 @@ function convertToTitleCase(str) {
 
 
 function collectAuthors(authorData, config) {
-	return authorData.map(item => ({
-		frontmatter: {
-			title: settings.translateAuthor(item.author_login[0]),
-			slug: settings.getAuthor(item.author_login[0]).slug || '',
-			displayName: settings.getAuthor(item.author_login[0]).displayName,
-			email: item.author_email[0],
-			bio: settings.getAuthor(item.author_login[0]).bio
-		},
-		content: ""
-	}));
+	return authorData.map(item => { 
+		let title = settings.translateAuthor(item.author_login[0]);
+
+		// let slug = settings.getAuthor(item.author_login[0]).slug 
+		// 	|| (/[À-ž.]/g.test(title) ? slugize(title): '');
+
+		return {
+			frontmatter: {
+				title: settings.translateAuthor(item.author_login[0]),
+				// slug: slug,
+				displayName: settings.getAuthor(item.author_login[0]).displayName,
+				email: item.author_email[0],
+				bio: settings.getAuthor(item.author_login[0]).bio,
+				jobTitle: settings.getAuthor(item.author_login[0]).jobTitle,
+				knowsAbout: settings.getAuthor(item.author_login[0]).knowsAbout,
+				urls: settings.getAuthor(item.author_login[0]).urls
+			},
+			content: ""
+		};
+	});
 }
 
 exports.parseFilePromise = parseFilePromise;
+
+
+function slugize(str) {
+
+	// Convert the string to lowercase
+	str = str.toLowerCase();
+  
+	// normalize and remove accents
+	str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+
+	// Remove special characters, replace spaces with dashes
+	str = str.replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
+  
+	// Remove leading and trailing dashes
+	str = str.replace(/^-+|-+$/g, '');
+
+	return str;
+}

@@ -11,6 +11,11 @@
         "oldRefKey": "Susana Garcia",
         "displayName": "Susana García",
         "email": "susana@marakandacomunicacion.com",
+        "jobTitle": "Directora Corporativa",
+        "urls": [
+            "https://www.linkedin.com/in/susana-garc%C3%ADa-pulido-70347627/"
+        ],
+        "knowsAbout": "Viajes, Peridismo e ir de tapas por Madrid",
         "bio": "Periodista y viajera desde hace más de dos décadas ha desarrollado su labor profesional entre el periodismo de viajes y la comunicación corporativa para empresas como Catai o Turismo de Croacia. La vida le ha llevado a especializarse en turismo familiar y disfruta con sus estudios de Geografía e Historia."
     },
     {
@@ -18,7 +23,11 @@
         "oldRefKey": "Pepa G. Marin",
         "displayName": "Pepa García Marín",
         "email": "pepagarcia@periodismoturistico.com",
-        "slug": "pepa-g-marin",
+        "jobTitle": "Directora Editorial",
+        "urls": [
+            "https://www.linkedin.com/in/pepagarcia/"
+        ],
+        "knowsAbout": "Periodismo, Marketing Turístico y todo sobre Conil de la Frontera",
         "bio": "Periodista de viajes 'de toda la vida', exdirectora editorial de revista Viajeros (1997-2017). Colabora con diversos medios turísticos y desarrolla proyectos editoriales para hoteles, oficinas de turismo, etc. Dedica sus ratos libres a la investigación académica y a disfrutar de la vida. Le puedes escribir a info(@)etheriamagazine.com"
     },
     {
@@ -96,7 +105,6 @@
         "oldRefKey": "Cristina",
         "displayName": "Cristina R. Bareño",
         "email": "cristinaetheria@gmail.com",
-        "slug": "cristina-r-bareno",
         "bio": "Periodista, viajera y amante de la naturaleza. Colabora con diversos medios especializados en viajes y gastronomía, por lo que considera que ha hecho de sus dos mayores hobbies, su profesión. Su tiempo libre lo invierte en preparar próximas aventuras y realizar actividades al aire libre, pero los planes de peli y manta los domingos de invierno son su debilidad."
     },
     {
@@ -181,7 +189,6 @@
         "oldRefKey": "Elisabeth G. Iborra",
         "displayName": "Elisabeth G. Iborra",
         "email": "elisabethetheria@gmail.com",
-        "slug": "elisabeth-g-iborra",
         "bio": "Periodista por vocación, escritora con 17 libros publicados por derivación lógica, viajera por necesidad, investigadora por curiosidad, y, ante todo, profesional independiente.﻿"
     },
     {
@@ -238,7 +245,6 @@
         "oldRefKey": "Alfredo",
         "displayName": "Alfredo G. Reyes",
         "email": "alfredogreyes@gmail.com",
-        "slug": "alfredo-g-reyes",
         "bio": "Periodista especializado en gastronomía y turismo con una amplia experiencia en ambos sectores. Amante de la cocina y los viajes, ha logrado hacer de sus pasiones un modo de vida. Puedes seguir sus pasos en varios medios impresos y online."
     },
     {
