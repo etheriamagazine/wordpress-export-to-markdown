@@ -1,11 +1,14 @@
-# ignore directories
+# OS stuff
+.DS_Store
+
+# dependencies and output dir
 node_modules/
 output/
 tmp/
 
-#ignore specific filenames
+# wordpress export file
 export.xml
-.DS_Store
 
-#ignore export.xml
-export.xml
+# secrets
+.env
+.env.local
