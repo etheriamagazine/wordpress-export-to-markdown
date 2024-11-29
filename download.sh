@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# load secrets
+# import secrets
 source .env.local
 
 user="$WP_USER"
@@ -8,21 +8,17 @@ password=$WP_PASSWORD
 
 curl="/usr/bin/curl"      # path to curl
 path="./tmp"              # path to temporary cookie files
-
 agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 site="https://etheriamagazine.com"
 
-# create tmp path
+# create path
 mkdir -p "$path"
 
-## clean 
+# clean
 rm -rf "$path"/*
 
-## download ##
 
-
-## authenticate and save cookies
-
+# authenticate
 "$curl" -s -o /dev/null \
         --user-agent "$agent" \
         --dump-header  "$path"/headers.txt \
@@ -37,6 +33,7 @@ rm -rf "$path"/*
         "$site"/adminmagazine/
 
 
+# download wordpress export file
 "$curl" -o export.xml \
         --user-agent "$agent" \
         --referer https://etheriamagazine.com/wp-admin/export.php \
