@@ -120,8 +120,10 @@ async function loadMarkdownFilePromise(post) {
 
 async function replace_image_prefix(output) {
 	return output
-		.replaceAll("https://etheriamagazine.com/wp-content/uploads/", "etheria-images/")
-		.replaceAll("http://etheriamagazine.com/wp-content/uploads/", "etheria-images/")
+		.replaceAll("https://etheriamagazine.com/wp-content/uploads/", "https://fotos.etheriamagazine.com/")
+		.replaceAll("http://etheriamagazine.com/wp-content/uploads/", "https://fotos.etheriamagazine.com/")
+		// sanitize pictures included with dimensions.
+		.replaceAll(/-\d+x\d+\.(jpe?g|png|gif|webp|avif)/g, ".$1");
 }
 
 async function writeImageFilesPromise(posts, config) {
