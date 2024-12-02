@@ -31,23 +31,29 @@ function initTurndownService() {
 	});
 
 	// preserve embedded scripts (for tweets, codepens, gists, etc.)
-	turndownService.addRule('script', {
-		filter: 'script',
-		replacement: (content, node) => {
-			let before = '\n\n';
-			if (node.previousSibling && node.previousSibling.nodeName !== '#text') {
-				// keep twitter and codepen <script> tags snug with the element above them
-				before = '\n';
-			}
-			const html = node.outerHTML.replace('async=""', 'async');
-			return before + html + '\n\n';
-		}
-	});
+	// turndownService.addRule('script', {
+	// 	filter: 'script',
+	// 	replacement: (content, node) => {
+	// 		let before = '\n\n';
+	// 		if (node.previousSibling && node.previousSibling.nodeName !== '#text') {
+	// 			// keep twitter and codepen <script> tags snug with the element above them
+	// 			before = '\n';
+	// 		}
+	// 		const html = node.outerHTML.replace('async=""', 'async');
+	// 		return before + html + '\n\n';
+	// 	}
+	// });
+
+	// remove scripts
+	turndownService.remove('script');
 
 	// iframe boolean attributes do not need to be set to empty string
 	turndownService.addRule('iframe', {
 		filter: 'iframe',
 		replacement: (content, node) => {
+			if(/maps/.test(node.outerHTML) == false) {
+				return '\n\n<!--\n' + node.outerHTML + '\n-->\n\n';
+			}
 			const html = node.outerHTML
 				.replace('allowfullscreen=""', 'allowfullscreen')
 				.replace('allowpaymentrequest=""', 'allowpaymentrequest');
