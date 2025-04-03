@@ -13,7 +13,8 @@
 	],
 	"scripts": {
 		"download": "bash download.sh",
-		"copy": "cp -r output/* ../etheriamagazine.com/content/ && cp -r output/authors output/categories ../hugo-modules/sky-theme/dev_content && cp -r output/posts/2024 ../hugo-modules/sky-theme/dev_content/posts",
+		"copy": "rm -rf ../etheriamagazine.com/content/authors ../etheriamagazine.com/content/categories ../etheriamagazine.com/content/posts &&  cp -r output/* ../etheriamagazine.com/content/",
+		"copy_dev": "rm -rf ../hugo-modules/sky-theme/dev_content/authors ../hugo-modules/sky-theme/dev_content/categories ../hugo-modules/sky-theme/dev_content/posts/* &&  cp -r output/authors output/categories ../hugo-modules/sky-theme/dev_content && cp -r output/posts/2024 output/posts/2025 ../hugo-modules/sky-theme/dev_content/posts",
 		"export": "rm -rf output && node index.js --wizard=false --year-folders=true --month-folders=true --post-folders=false --prefix-date=false --save-images=false",
 		"test": "echo \"Error: no test specified\" && exit 1"
 	},

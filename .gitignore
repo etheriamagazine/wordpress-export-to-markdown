@@ -3,7 +3,6 @@
 
 # dependencies and output dir
 node_modules/
-output/
 tmp/
 
 # wordpress export file

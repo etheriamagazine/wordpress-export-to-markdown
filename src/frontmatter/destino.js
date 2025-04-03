@@ -1,0 +1,44 @@
+const settings = require('../settings');
+const regexMundo = /(Afganistán|Albania|Argelia|Andorra|Angola|Antigua y Barbuda|Argentina|Armenia|Australia|Austria|Azerbaiyán|Bahamas|Baréin|Bangladés|Barbados|Bélgica|Belice|Benín|Bielorrusia|Birmania|Bolivia|Bosnia y Herzegovina|Botsuana|Brasil|Brunéi|Bulgaria|Burkina Faso|Burundi|Bután|Cabo Verde|Camboya|Camerún|Canadá|Catar|Chad|Chile|China|Chipre|Colombia|Comoras|Congo|Corea del Norte|Corea del Sur|Costa Rica|Croacia|Cuba|Dinamarca|Dominica|Ecuador|Egipto|El Salvador|Emiratos Árabes Unidos|Eritrea|Eslovaquia|Eslovenia|Estonia|Eswatini|Etiopía|Fiyi|Filipinas|Finlandia|Francia|Gabón|Gambia|Gana|Georgia|Grecia|Granada|Guatemala|Guinea|Guinea-Bisáu|Guinea Ecuatorial|Guyana|Haití|Honduras|Hungría|India|Indonesia|Irak|Irán|Irlanda|Israel|Italia|Jamaica|Japón|Jordania|Kazajistán|Kenia|Kirguistán|Kiribati|Kuwait|Laos|Lesoto|Letonia|Líbano|Liberia|Libia|Liechtenstein|Lituania|Luxemburgo|Madagascar|Malasia|Malawi|Maldivas|Malí|Malta|Marruecos|Mauricio|Mauritania|México|Micronesia|Mónaco|Mongolia|Montenegro|Mozambique|Namibia|Nauru|Nepal|Nicaragua|Níger|Nigeria|Noruega|Nueva Zelanda|Omán|Pakistán|Palaos|Panamá|Papúa Nueva Guinea|Paraguay|Perú|Polonia|Portugal|Ruanda|Rumanía|San Cristóbal y Nieves|San Marino|San Vicente y las Granadinas|Santa Lucía|Santo Tomé y Príncipe|Senegal|Serbia|Seychelles|Sierra Leona|Singapur|Siria|Somalia|Sri Lanka|Sudáfrica|Sudán|Surinam|Suecia|Suiza|Taiwán|Tailandia|Tanzania|Tayikistán|Timor Oriental|Togo|Tonga|Trinidad y Tobago|Túnez|Turkmenistán|Turquía|Tuvalu|Ucrania|Uganda|Uruguay|Uzbekistán|Vanuatu|Vaticano|Venezuela|Vietnam|Yemen|Yibuti|Zambia|Zimbabue|Alabama|Alaska|Arizona|Arkansas|California|Carolina del Norte|Carolina del Sur|Colorado|Connecticut|Delaware|Florida|Georgia|Hawái|Idaho|Illinois|Indiana|Iowa|Kansas|Kentucky|Luisiana|Maine|Maryland|Massachusetts|Míchigan|Minnesota|Misisipi|Misuri|Montana|Nebraska|Nevada|Nueva Jersey|Nuevo Hampshire|Nuevo México|Nueva York|Ohio|Oklahoma|Oregón|Pensilvania|Rhode Island|Tennessee|Texas|Utah|Vermont|Virginia|Washington|Virginia Occidental|Wisconsin|Wyoming|Chicago|Los Ángeles|Houston|Phoenix|Filadelfia|San Antonio|San Diego|Dallas|San José|Austin|Jacksonville|Fort Worth|Columbus|Indianápolis|Charlotte|San Francisco|Seattle|Denver|Washington D.C.|Boston|El Paso|Nashville|Detroit|Oklahoma City|Las Vegas|Portland|Memphis|Louisville|Baltimore|Milwaukee|Albuquerque|Tucson|Fresno|Sacramento|Kansas City|Long Beach|Mesa|Atlanta|Colorado Springs|Raleigh|Miami|Omaha|Oakland|Minneapolis|Cleveland|Tulsa|Wichita|New Orleans|Arlington|Tampa|Bakersfield|Aurora|Anaheim|Honolulu|Riverside|Corpus Christi|Lexington|Henderson|Madison|Chandler|Laredo|Durham|Scottsdale|Baton Rouge|Garland|Glendale|Hialeah|Chesapeake|Irving|Fremont|Boise|Richmond|San Bernardino|Spokane|Des Moines|Modesto|Fontana|Santa Clarita|Birmingham|Oxnard|Moreno Valley|Fayetteville|Huntington Beach|Glendale|Aurora|Yonkers|Amarillo|Mobile|Little Rock|Tallahassee|Augusta|Columbia|Knoxville|Grand Rapids|Salt Lake City|Huntsville|Cape Coral|Peoria|Sioux Falls|Springfield|Elk Grove|Rockford|Tempe|Billings|Chattanooga|Gresham|McKinney|Lakewood|Brownsville|Newport News|Torrance|Fullerton|Visalia|West Valley City|Columbia|Macon|Murrieta|O'Fallon|McAllen|North Las Vegas|Boulder|Tacoma|Appleton|Beaumont|Killeen|Lehigh Acres|Lynchburg|Pueblo|Fargo|San Angelo|Lansing|Miami Beach|Kennewick|Springfield|Turlock|Bryan|Longmont|Sandy|Evansville|Perris|Mansfield|Midland|Cedar Rapids|College Station|Palm Bay|Medford|Carrollton|Clearwater|Arvada|Waterloo|Billings|Lakewood|Clinton|Pocatello|Lima|Brockton|Yuma|Topeka|Denton|Missoula|Battle Creek|Grand Junction|Indianapolis|Daytona Beach|Tampa|Copacabana|Bondi|Waikiki|Whitehaven|Cable Beach|Anse Source d'Argent|Tulum|Grace Bay|Navagio|Kuta|Patong|Seven Mile|Nungwi|Phra Nang|Muizenberg|Sihanoukville|Chaweng|Biarritz|Varadero|Ao Nang|Langkawi|Nusa Dua|Seminyak|Kata|El Nido|Bonito|Lanikai|Elafonissi|Islas Cook|Macao|Krabi|Hong Kong|Beijing|Shanghái|Seúl|Tokio|Ciudad de México|Lima|Buenos Aires|Santiago|Lagos|Nairobi|Islamabad|Karachi|Nueva Delhi|Bombay|Manila|Singapur|Yakarta|Kuala Lumpur|Bangkok|Hanoi|Riyad|Dubai|Doha|Kuwait|Abu Dabi|Muscat|Adís Abeba|Cairo|Tegucigalpa|Lima|La Paz|Montevideo|Asunción|Brasilia|Caracas|Georgetown|Porto Alegre|Córdoba|Santa Fe|San Salvador|Panamá|Santo Domingo|San Juan|Kingston|Port-au-Prince|Helsinki|Suva|Dakar|Lima|Cotonou|Luanda|Kinshasa|Kinshasa|Nairobi|Vancouver|Edmonton|Ottawa|Calgary|Toronto|Montreal|Halifax|Victoria|Quebec|Winnipeg|Minsk|Yereván|Bangkok|Rangún|Dhaka|Cebu|Puerto Princesa|Bali|Phuket|Padang|Medan|Seminyak|Lombok|Ubud|Kuta|Nusa Lembongan|Palawan|Cebu|Krabi)/i;
+const regexEuropa = /(Florencia|Alemania|Francia|Reino Unido|Italia|Bélgica|Países Bajos|Polonia|Suecia|Noruega|Suiza|Austria|Rusia|Dinamarca|Finlandia|Irlanda|Portugal|Chequia|Hungría|Eslovaquia|Rumanía|Bulgaria|Croacia|Eslovenia|Estonia|Letonia|Lituania|Luxemburgo|Malta|Mónaco|Andorra|Liechtenstein|San Marino|Vaticano|Berlín|Múnich|Hamburgo|Frankfurt|Stuttgart|Düsseldorf|Dortmund|Essen|Bremen|Leipzig|Colonia|Hanóver|París|Marsella|Lyon|Toulouse|Niza|Nantes|Estrasburgo|Montpellier|Burdeos|Lille|Bruselas|Ámsterdam|Rotterdam|La Haya|Gante|Lovaina|Cracovia|Varsovia|Łódź|Wrocław|Poznań|Gdańsk|Estocolmo|Gotemburgo|Malmö|Oslo|Bergen|Stavanger|Zúrich|Ginebra|Basilea|Viena|Salzburgo|Linz|Múnich|San Petersburgo|Moscú|Kazán|Ekaterimburgo|Novosibirsk|Tallin|Riga|Vilna|Tartu|Bucarest|Cluj-Napoca|Timisoara|Sofia|Plovdiv|Zagreb|Split|Dubrovnik|Liubliana|Maribor|Vilnius|Tirana|Podgorica|Chisináu|Skopje|Sarajevo|Tiflis|Batumi|Bucarest)/i;
+const regexEspaña = /(España|Madrid|Barcelona|Valencia|Sevilla|Zaragoza|Málaga|Murcia|Palma de Mallorca|Las Palmas de Gran Canaria|Bilbao|Alicante|Córdoba|Valladolid|Vigo|Gijón|L'Hospitalet de Llobregat|A Coruña|Badalona|Tarragona|Éibar|Oviedo|Mataró|Almería|Leganés|Santa Cruz de Tenerife|Alcalá de Henares|San Sebastián|Getafe|Burgos|Algeciras|Cáceres|Salamanca|Huelva|León|Lleida|Castellón de la Plana|Badajoz|La Coruña|Marbella|Santiago de Compostela|Toledo|San Cristóbal de La Laguna|Reus|Torrevieja|Elche|Jaén|Pontevedra|Cádiz|Girona|Ceuta|Melilla|Logroño|Albacete|Sabadell|Alcobendas|Fuengirola|Gandía|Rivas-Vaciamadrid|Benidorm|Santa Coloma de Gramenet|San Fernando|Cartagena|Cieza|Lorca|Alcázar de San Juan|Villaverde|Fuenlabrada|Pozuelo de Alarcón|La Línea de la Concepción|El Puerto de Santa María|Huesca|Cuenca|Linares|Paterna|Denia|Jerez de la Frontera|Talavera de la Reina|Manresa|Coslada|Alcalá de Guadaíra|Torrelavega|Móstoles|Las Palmas|Tenerife|Gran Canaria|Lanzarote|Fuerteventura|La Palma|La Gomera|El Hierro|Formentera|Ibiza|Menorca|Palma|Baleares|Álava|Albacete|Asturias|Ávila|Badajoz|Cantabria|Castellón|Ciudad Real|Cuenca|Girona|Granada|Guadalajara|Gipuzkoa|Huelva|Huesca|Jaén|León|Lleida|Madrid|Málaga|Murcia|Navarra|Ourense|Palencia|La Rioja|Segovia|Soria|Teruel|Vizcaya|Zamora|Zaragoza|Playa de la Concha|Playa de la Barceloneta|Playa de Palma|Playa de Las Canteras|Playa de Ses Illetes|Playa de Bolonia|Playa de la Victoria|Playa de la Malagueta|Playa de Maspalomas|Playa del Inglés|Playa de la Lanzada|Playa de Valdevaqueros|Playa de La Barrosa|Playa de Cala Millor|Playa de la Arena|Playa de las Catedrales|Playa de las Teresitas|Playa de Cavallet|Playa de Zahara de los Atunes|Playa de Torremolinos|Playa de Punta Cana|Playa de Vinarós|Playa de Comarruga|Playa de San Sebastián|Playa de Muro|Playa de La Pineda|Playa de Arenal|Playa de Rodas|Playa de Coveta Fumá|Playa de Sitges|Playa de Begur|Playa de Aiguablava|Playa de Sant Sebastià|Playa de La Rasa|Playa de Palmanova|Playa de Salou|Playa de Rincón de la Victoria|Playa de Montroig|Playa de Puerto de la Cruz|Playa de Los Pinos|Playa de la Mata|Playa de El Palmar|Ebro|Tajo|Guadalquivir|Duero|Genil|Miño|Guadiana|Segura|Júcar|Gállego|Cinca|Río Órbigo|Río Genil|Río Guadalete|La Mancha|Rioja|Ribera del Duero|Penedés|Jerez|Rías Baixas|Bierzo|Montsant|Priorat|Utiel-Requena|Valdepeñas|Manchuela|Alicante|Albariño|Tacoronte-Acentejo|Méntrida|Campo de Borja|Vino de la Tierra de Castilla|Yecla|Bullas|Lanzarote|Somontano)/i;
+
+// get array of categories for post, filtered as specified in settings
+module.exports = (post) => {
+  if (!post.content) {
+    return [];
+  }
+
+  const content = post.content;
+  const title = post.data.title[0];
+
+  
+  if(regexEspaña.test(title)) {
+    // console.log(title, 'España');
+    return ['España']
+  }
+
+  if(regexEuropa.test(title)) {
+    return ['Europa']
+  }  
+
+  if(regexMundo.test(title)) {
+    return ['Mundo'];
+  }
+
+  if(regexEspaña.test(content)) {
+    // console.log(title, 'España - C');
+
+    return ['España'];
+  }
+
+  if(regexEuropa.test(content)) {
+    return ['Europa'];
+  }
+
+  if(regexMundo.test(content)) {
+    return ['Mundo'];
+  }
+
+  return null;
+};

@@ -1,0 +1,12 @@
+
+# to convert directory listing to a map with jq
+
+ls -d */ -> list only dirs
+tr -d / -> remove trailing slash
+jq -R -s > read raw input (-r) and -s (slur or read all objects) at once
+
+    jq command 'split("\n")[:-1]' split text by \n
+    map each element to a key value pair
+    add to a new object
+
+ls -d */ | tr -d / | jq -R -s 'split("\n")[:-1] | map( { (.): . } ) | add' > categories.txt 
