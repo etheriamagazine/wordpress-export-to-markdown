@@ -84,8 +84,8 @@ function collectPosts(channelData, postTypes, slugRedirects, config) {
         meta: {
           id: getPostId(postData),
           slug: getPostSlug(postData),
-          coverImageId: getPostCoverImageId(postData),
-          coverImage: undefined, // possibly set later in mergeImagesIntoPosts()
+          coverId: getPostCoverImageId(postData),
+          cover: undefined, // possibly set later in mergeImagesIntoPosts()
           type: postType,
           imageUrls: [], // possibly set later in mergeImagesIntoPosts()
         },
@@ -221,9 +221,9 @@ function mergeImagesIntoPosts(images, posts) {
       }
 
       // this image was set as the featured image for this post
-      if (image.id === post.meta.coverImageId) {
+      if (image.id === post.meta.coverId) {
         shouldAttach = true;
-        post.meta.coverImage = image.url; // shared.getFilenameFromUrl(image.url);
+        post.meta.cover = image.url; // shared.getFilenameFromUrl(image.url);
       }
 
       if (shouldAttach && !post.meta.imageUrls.includes(image.url)) {

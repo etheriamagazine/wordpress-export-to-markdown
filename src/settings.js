@@ -2,7 +2,7 @@
 // Order is preserved. If a field has an empty value, it will not be included. You can rename a
 // field by providing an alias after a ':'. For example, 'date:created' will include 'date' in
 // frontmatter, but renamed to 'created'.
-exports.frontmatter_fields = ["title", "date", "coverImage", "categories", "destino", "tags", "authors"];
+exports.frontmatter_fields = ["title", "date", "cover", "categories", "destino", "tags", "authors"];
 
 // Time in ms to wait between requesting image files. Increase this if you see timeouts or
 // server errors.

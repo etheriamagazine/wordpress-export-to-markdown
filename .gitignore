@@ -4,6 +4,7 @@
 # dependencies and output dir
 node_modules/
 tmp/
+output/
 
 # wordpress export file
 export.xml
