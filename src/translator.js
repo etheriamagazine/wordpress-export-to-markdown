@@ -1,7 +1,7 @@
 const turndown = require('turndown');
 const turndownPluginGfm = require('turndown-plugin-gfm');
 
-function initTurndownService(slugRedirects = {}) {
+function initTurndownService(slugTokens = {}) {
   const turndownService = new turndown({
     headingStyle: 'atx',
     bulletListMarker: '-',
@@ -119,10 +119,9 @@ function initTurndownService(slugRedirects = {}) {
       var regex = /https:\/\/etheriamagazine\.com\/(\d+)\/(\d+)\/(\d+)\/([^\/]+)\/?/i;
       var match = href.match(regex);
       if (match) {
-        let linkSlug = match[4];
-
-        if(linkSlug in slugRedirects) {
-          let {slug, year, month} = slugRedirects[linkSlug];
+        let matchedSlug = match[4]
+        if(matchedSlug in slugTokens) {
+          let {slug, year, month} = slugTokens[matchedSlug];
           let path = `posts/${year}/${month}/${slug}`;
           return `{{< reflink path=${path} >}}`;
         }

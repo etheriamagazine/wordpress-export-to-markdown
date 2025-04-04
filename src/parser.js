@@ -24,8 +24,8 @@ async function parseFilePromise(config) {
   const authorData = allData.rss.channel[0].author;
 
   const postTypes = getPostTypes(channelData, config);
-  const slugRedirects = getSlugRedirects(channelData, postTypes);
-  const posts = collectPosts(channelData, postTypes, slugRedirects, config);
+  const slugTokens = getSlugTokens(channelData, postTypes);
+  const posts = collectPosts(channelData, postTypes, slugTokens, config);
   const categories = collectCategories(categoryData, config);
   const authors = collectAuthors(authorData, config);
 
@@ -68,9 +68,9 @@ function getItemsOfType(channelData, type) {
   return channelData.filter((item) => item.post_type[0] === type);
 }
 
-function collectPosts(channelData, postTypes, slugRedirects, config) {
+function collectPosts(channelData, postTypes, routeTokenTable, config) {
   // this is passed into getPostContent() for the markdown conversion
-  const turndownService = translator.initTurndownService(slugRedirects);
+  const turndownService = translator.initTurndownService(routeTokenTable);
 
   let allPosts = [];
   postTypes.forEach((postType) => {
@@ -109,8 +109,9 @@ function collectPosts(channelData, postTypes, slugRedirects, config) {
 }
 
 // 
-function getSlugRedirects(channelData, postTypes) {
-  let redirects = {};
+function getSlugTokens(channelData, postTypes) {
+  let oldSlugs = {};
+  let currentSlugs = {};
   postTypes.forEach((postType) => {
     getItemsOfType(channelData, postType)
       .filter((postData) => postData.status[0] !== 'trash' && postData.status[0] !== 'draft')
@@ -118,13 +119,13 @@ function getSlugRedirects(channelData, postTypes) {
         const slug = getPostSlug(postData);
 
 		// whenever an article in WordPress gets republished, links may be outdated not only because
-		// the slug may be update, but also the publish time
+		// the slug may have changed, but because the publish date gets updated.
 		// Our best bet is to use the current publish date to make the path of the old links
 		// work again.
 		const pubdate = luxon.DateTime.fromRFC2822(postData.pubDate[0], { zone: 'utc' }).toISODate();
 		const year = pubdate.substring(0, 4);
 		const month = pubdate.substring(5, 7);
-		
+		const day = pubdate.substring(8);
 		
 		// add first all _wp_old_slug found for the post
         postData.postmeta
@@ -132,22 +133,21 @@ function getSlugRedirects(channelData, postTypes) {
           .forEach((postmeta) => {
             const oldSlug = postmeta ? postmeta.meta_value[0] : undefined;
             if (oldSlug) {
-              redirects = { ...redirects, ...{ [oldSlug]: { slug, year, month } }};
+              oldSlugs = { ...oldSlugs, ...{ [oldSlug]: { slug, year, month, day } }};
             }
           });
 		
-		  // and also the current slug
-		redirects = { ...redirects, ...{[slug]: { slug, year, month } } }
-
+		// and also the current slug
+		currentSlugs = { ...currentSlugs, ...{[slug]: { slug, year, month, day } } }
       });
   });
 
-  var count = Object.entries(redirects).length;
-  if (count > 0) {
-    console.log(`\nFound ${count} redirects`);
-  }
+  var oldCount = Object.entries(oldSlugs).length;
+  var currentCount = Object.entries(currentSlugs).length;
 
-  return redirects;
+  console.log(`\nFound ${oldCount + currentCount} slugs. Old: ${oldCount}, Current: ${currentCount}`);
+
+  return {...currentSlugs, ...oldSlugs };
 }
 
 function getPostId(postData) {
