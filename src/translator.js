@@ -7,10 +7,9 @@ function initTurndownService(slugTokens = {}) {
     bulletListMarker: '-',
     codeBlockStyle: 'fenced',
   });
-  
+
   turndownService.use(turndownPluginGfm.tables);
 
-  
   // remove scripts
   turndownService.remove('script');
 
@@ -75,7 +74,9 @@ function initTurndownService(slugTokens = {}) {
         nextElementSibling?.tagName == 'FIGCAPTION' ? nextElementSibling.textContent : '';
 
       var title = figcaption || cleanAttribute(node.getAttribute('title'));
-      var titlePart = title ? ' "' + title + '"' : '';
+      var delim = title.includes('"') ? "'" : '"';
+
+      var titlePart = title ? ` ${delim}` + title + delim : '';
       return src ? '![' + alt + ']' + '(' + src + titlePart + ')' : '';
     },
   });
@@ -119,16 +120,14 @@ function initTurndownService(slugTokens = {}) {
       var regex = /https:\/\/etheriamagazine\.com\/(\d+)\/(\d+)\/(\d+)\/([^\/]+)\/?/i;
       var match = href.match(regex);
       if (match) {
-        let matchedSlug = match[4]
-        if(matchedSlug in slugTokens) {
-          let {slug, year, month} = slugTokens[matchedSlug];
+        let matchedSlug = match[4];
+        if (matchedSlug in slugTokens) {
+          let { slug, year, month } = slugTokens[matchedSlug];
           let path = `posts/${year}/${month}/${slug}`;
           return `{{< reflink path=${path} >}}`;
+        } else {
+          return `<!-- LEGACY_NON_EXISTANT_LINK <a href="${href}">${content}</a> -->`;
         }
-        else {
-          return `<!-- LEGACY_NON_EXISTANT_LINK <a href="${href}">${content}</a> -->`
-        }
-
       } else {
         return '' + `[${content}](${href})` + '';
       }
